@@ -9,7 +9,6 @@ import ru.avalon.java.j20.labs.tasks.*;
  * Стандартные пакеты"
  */
 public class Application {
-
     /**
      * Задачи, которые следует выполнить в рамках
      * лабораторной работы.

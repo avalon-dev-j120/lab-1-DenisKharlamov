@@ -1,5 +1,6 @@
 package ru.avalon.java.j20.labs.models;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
@@ -17,13 +18,31 @@ import java.util.Iterator;
  * @see <a href="https://ru.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D1%87%D0%B8">Числа Фибоначчи</a>
  */
 public class Fibonacci implements Iterable<Integer> {
-
+	
+	static ArrayList<Integer> number;
+	static int capacity;
+	
+	public Fibonacci(int value) {
+		ArrayList<Integer> array = new ArrayList<Integer>();
+		if (value <= 0) {
+			number = array;
+	    	capacity = array.size();
+		} else {
+		array.add(0, 0);
+    	array.add(1, 1);
+    	for (int i = 2; i < value; i++) {
+    		array.add(i, array.get(i-1) + array.get(i-2));
+    	}
+    	number = array;
+    	capacity = array.size();
+		}
+	}
     /**
      * Итератор, выполняющий обход последовательности
      * чисел Фибоначчи.
      */
     private static class FibonacciIterator implements Iterator<Integer> {
-
+    	int next;
         /**
          * Определяет, есть ли следующее значение
          * последовательности чисел Фибоначчи.
@@ -34,7 +53,7 @@ public class Fibonacci implements Iterable<Integer> {
          */
         @Override
         public boolean hasNext() {
-            throw new UnsupportedOperationException("Not implemented yet!");
+        	return (next < Fibonacci.capacity);
         }
 
         /**
@@ -45,7 +64,23 @@ public class Fibonacci implements Iterable<Integer> {
          */
         @Override
         public Integer next() {
-            throw new UnsupportedOperationException("Not implemented yet!");
+        	int i = next;
+        	if (hasNext()) {
+        		next = i + 1;
+        	}
+        	return Fibonacci.number.get(i);
+        }
+        
+        @Override
+		public void remove() {
+			next = 0;
+		}
+
+		/**
+         * Возвращение итератора к началу списка
+         */
+        public void setNext(int val) {
+        	next = val;
         }
     }
 
@@ -58,5 +93,9 @@ public class Fibonacci implements Iterable<Integer> {
     @Override
     public Iterator<Integer> iterator() {
         return new FibonacciIterator();
+    }
+    
+    public void setIterator(Iterator<Integer> name, int value) {
+    	((FibonacciIterator)name).setNext(value);
     }
 }
